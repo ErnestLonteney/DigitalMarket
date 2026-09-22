@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace DigitalMarket.Entities
 
         public ShopContext()
         {
-            Database.EnsureDeleted();
+           // Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -21,6 +22,12 @@ namespace DigitalMarket.Entities
         public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
 
         public DbSet<Customer> Customers { get; set; } = null!;
+
+        public DbSet<Manager> Managers { get; set; } = null!;
+
+        public DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
+
+        public DbSet<Department> Departments { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,9 +45,31 @@ namespace DigitalMarket.Entities
                 .HasMaxLength(100);
 
             modelBuilder.Entity<Customer>().Property(p => p.Phone)
-                .HasColumnName("PhoneNumber");      
+                .HasColumnName("PhoneNumber");
+            
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderDetails)
+                .WithOne(od => od.Order)
+                .HasForeignKey(od => od.OrderId);
+
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Date)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Product)
+                .WithMany()
+                .HasForeignKey(od => od.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(od => od.Qty)
+                .HasDefaultValue(1);
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
+
+
         }
     }
 }

@@ -21,5 +21,9 @@ namespace DigitalMarket.Entities
 
         [MaxLength(200)]
         public string? Email { get; set; }
+
+        public CustomerAddress? Address { get; set; }
+
+        public List<Order> Orders { get; set; } = [];
     }
 }

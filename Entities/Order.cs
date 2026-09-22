@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DigitalMarket.Entities
 { 
@@ -9,6 +10,10 @@ namespace DigitalMarket.Entities
 
         public DateTime Date { get; set; }
 
-        public int CustomerId { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; } = [];
+      
+        public Customer Customer { get; set; } = null!;
+
+        public Manager? Manager { get; set; } = null!;
     }
 }
