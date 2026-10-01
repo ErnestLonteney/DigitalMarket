@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DigitalMarket.Entities
 {
@@ -11,8 +7,10 @@ namespace DigitalMarket.Entities
 
         public ShopContext()
         {
-           // Database.EnsureDeleted();
-            Database.EnsureCreated();
+             Database.EnsureDeleted();
+             Database.EnsureCreated();
+
+           // Database.Migrate();
         }
 
         public DbSet<Product> Products { get; set; } = null!;
@@ -25,7 +23,13 @@ namespace DigitalMarket.Entities
 
         public DbSet<Manager> Managers { get; set; } = null!;
 
-        public DbSet<CustomerAddress> CustomerAddresses { get; set; } = null!;
+        public DbSet<Person> People { get; set; } = null!;
+
+        public DbSet<Employee> Employees { get; set; } = null!;
+
+        public DbSet<Director> Directors { get; set; } = null!;
+
+        public DbSet<PersonAddress> Addresses { get; set; } = null!;
 
         public DbSet<Department> Departments { get; set; } = null!;
 
@@ -36,40 +40,16 @@ namespace DigitalMarket.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderDetail>()
-                .HasKey(od => new { od.OrderId, od.ProductId });
-       
-
-            modelBuilder.Entity<Customer>()
-                .Property(c => c.FirstName)
-                .HasMaxLength(100);
-
-            modelBuilder.Entity<Customer>().Property(p => p.Phone)
-                .HasColumnName("PhoneNumber");
-            
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.OrderDetails)
-                .WithOne(od => od.Order)
-                .HasForeignKey(od => od.OrderId);
-
-
-            modelBuilder.Entity<Order>()
-                .Property(o => o.Date)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.Product)
-                .WithMany()
-                .HasForeignKey(od => od.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<OrderDetail>()
-                .Property(od => od.Qty)
-                .HasDefaultValue(1);
-
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonConfiguration());
 
-
+            //modelBuilder.Entity<Person>().ToTable("People").UseTpcMappingStrategy();
+            //modelBuilder.Entity<Customer>().ToTable("Customers");
+            //modelBuilder.Entity<Manager>().ToTable("Managers");
+            //modelBuilder.Entity<Director>().ToTable("Directors");
         }
     }
 }

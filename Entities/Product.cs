@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,8 @@ namespace DigitalMarket.Entities
         public decimal Price { get; set; }
 
         [MaxLength(50)]
-        public required string? Artikul { get; set; } 
+        public string? Artikul { get; set; }
+
+        public string? Discription { get; set; }
     }
 }

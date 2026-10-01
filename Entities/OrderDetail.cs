@@ -15,7 +15,7 @@ namespace DigitalMarket.Entities
         public short Qty { get; set; }
 
      //   [ForeignKey(nameof(OrderId))]
-        public required Order Order { get; set; }
+        public virtual required Order Order { get; set; }
 
          [ForeignKey(nameof(ProductId))]
         public required Product Product { get; set; }   

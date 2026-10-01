@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace DigitalMarket.Entities;
 
-namespace DigitalMarket.Entities
+public class Manager : Employee
 {
-    public class Manager
+    public Manager(string firstName, string lastName)
     {
-        public int Id { get; set; }
+        LastName = lastName;
+        FirstName = firstName;
+    }
 
-        public required string FirstName { get; set; } 
-
-        public required string? LastName { get; set; }
-
-        public string? Email { get; set; }
-
-        public List<Order> Orders { get; set; } = [];
-
-        public ICollection<Department> Departments { get; set; } = [];
+    protected Manager()
+    {
 
     }
+
+    public ManagerRank Rnak { get; set; }
+
+    public List<Order> Orders { get; set; } = [];
+
+    public ICollection<Department> Departments { get; set; } = [];
+
 }

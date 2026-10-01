@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace DigitalMarket.Entities
 {
-    public class CustomerAddress
+    public class PersonAddress
     {
         [Key]
         public int CustomerId { get; set; }
@@ -18,6 +15,6 @@ namespace DigitalMarket.Entities
         public required string House { get; set; }
 
         [ForeignKey(nameof(CustomerId))]
-        public required Customer Customer { get; set; }
+        public required Person Customer { get; set; }
     }
 }

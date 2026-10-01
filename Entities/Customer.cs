@@ -1,28 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace DigitalMarket.Entities
+﻿namespace DigitalMarket.Entities
 {
-    public class Customer
+    public class Customer : Person
     {
-        [Key]
-        public int Id { get; private set; }
+        public Customer(string firstName, string lastName)
+        {
+            LastName = lastName;
+            FirstName = firstName;
+        }
 
-        [MaxLength(100)]
-        public required string FirstName { get; set; }
+        protected Customer()
+        {
 
-        [MaxLength(100)]
-        public string? LastName { get; set; }
+        }
 
-        [Column("PhoneNumber")]
-        [Required]
-        [MaxLength(20)]
-        public required string Phone { get; set; }
+        public byte DiscountProcent { get; set; }
 
-        [MaxLength(200)]
-        public string? Email { get; set; }
-
-        public CustomerAddress? Address { get; set; }
+        public CustomerRating Rating { get; set; }
 
         public List<Order> Orders { get; set; } = [];
     }
